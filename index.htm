@@ -1,6 +1,8 @@
 
 <!doctype html>
-<html>
+<html lang="en">
+    <meta charset="utf-8"/>
+
   <head>
     <title>Network | Circular images</title>
 
@@ -32,12 +34,29 @@
         .card:hover {
         box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
         }
-
+        .imgContainer {
+          float:left;
+          margin-right: 26px;
+        }
+        #cardImg {
+          
+        }
         /* Add some padding inside the card container */
-        .container {
-        padding: 2px 16px;
+        .cardText {
+          padding: 2px 16px;
+          
         }
 
+        .cardText h1 {
+          font-size: 44pt;
+        }
+        .cardText p {
+          font-size: 25pt;
+          
+        }
+        #cardBody {
+          clear: both;
+        }
         .cardContents {
             margin: 100px;
         }
@@ -59,40 +78,40 @@
         // value corresponds with the age of the person
         var DIR = '00assets/';
         nodes = [
-          {id: "ICHIBA",  shape: 'circularImage', image: DIR + 'Logo_ICHIBA.png'},
-          {id: "BARCA",  shape: 'circularImage', image: DIR + 'Logo_BARCA.png'},
-          {id: "GORA",  shape: 'circularImage', image: DIR + 'Logo_GORA.png'},
-          {id: "INFO",  shape: 'circularImage', image: DIR + 'Logo_INFO.png'},
-          {id: "RAGRI",  shape: 'circularImage', image: DIR + 'Logo_RAGRI.png'},
-          {id: "RAKUMA",  shape: 'circularImage', image: DIR + 'Logo_RAKUMA.png'},
-          {id: "BANK",  shape: 'circularImage', image: DIR + 'Logo_BANK.png'},
-          {id: "BEAUTY",  shape: 'circularImage', image: DIR + 'Logo_BEAUTY.png'},
-          {id: "BOOKS",  shape: 'circularImage', image: DIR + 'Logo_BOOKS.png'},
-          {id: "BRAND",  shape: 'circularImage', image: DIR + 'Logo_BRAND.png'},
-          {id: "CAR",  shape: 'circularImage', image: DIR + 'Logo_CAR.png'},
-          {id: "CARD",  shape: 'circularImage', image: DIR + 'Logo_CARD.png'},
-          {id: "SEC",  shape: 'circularImage', image: DIR + 'Logo_SEC.png'},
-          {id: "DENWA",  shape: 'circularImage', image: DIR + 'Logo_DENWA.png'},
-          {id: "EDY",  shape: 'circularImage', image: DIR + 'Logo_EDY.png'},
-          {id: "HOKEN",  shape: 'circularImage', image: DIR + 'Logo_HOKEN.png'},
-          {id: "KEIBA",  shape: 'circularImage', image: DIR + 'Logo_KEIBA.png'},
-          {id: "KOBO",  shape: 'circularImage', image: DIR + 'Logo_KOBO.png'},
-          {id: "LOTO",  shape: 'circularImage', image: DIR + 'Logo_LOTO.png'},
-          {id: "MAG",  shape: 'circularImage', image: DIR + 'Logo_MAG.png'},
-          {id: "MOBILE",  shape: 'circularImage', image: DIR + 'Logo_MOBILE.png'},
-          {id: "MUSIC",  shape: 'circularImage', image: DIR + 'Logo_MUSIC.png'},
-          {id: "PAY",  shape: 'circularImage', image: DIR + 'Logo_PAY.png'},
-          {id: "POINTCARD",  shape: 'circularImage', image: DIR + 'Logo_POINTCARD.png'},
-          {id: "RECIPE",  shape: 'circularImage', image: DIR + 'Logo_RECIPE.png'},
-          {id: "DELIVERY",  shape: 'circularImage', image: DIR + 'Logo_DELIVERY.png'},
-          {id: "TICKET",  shape: 'circularImage', image: DIR + 'Logo_TICKET.png'},
-          {id: "TOTO",  shape: 'circularImage', image: DIR + 'Logo_TOTO.png'},
-          {id: "TRAVEL",  shape: 'circularImage', image: DIR + 'Logo_TRAVEL.png'},
-          {id: "TV",  shape: 'circularImage', image: DIR + 'Logo_TV.png'},
-          {id: "WEB",  shape: 'circularImage', image: DIR + 'Logo_WEB.png'},
-          {id: "ROOM",  shape: 'circularImage', image: DIR + 'Logo_ROOM.png'},
-          {id: "SHOPSTYLE",  shape: 'circularImage', image: DIR + 'Logo_SHOPSTYLE.png'},
-          {id: "VIBER",  shape: 'circularImage', image: DIR + 'Logo_VIBER.png'},
+          {id: "ICHIBA",  shape: 'circularImage', image: DIR + 'Logo_ICHIBA.png', data : {title:"楽天市場", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "BARCA",  shape: 'circularImage', image: DIR + 'Logo_BARCA.png', data : {title:"FCB", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "GORA",  shape: 'circularImage', image: DIR + 'Logo_GORA.png', data : {title:"GORA", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "INFO",  shape: 'circularImage', image: DIR + 'Logo_INFO.png', data : {title:"Infoseek", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "RAGRI",  shape: 'circularImage', image: DIR + 'Logo_RAGRI.png', data : {title:"RAGRI", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "RAKUMA",  shape: 'circularImage', image: DIR + 'Logo_RAKUMA.png', data : {title:"Rakuma", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "BANK",  shape: 'circularImage', image: DIR + 'Logo_BANK.png', data : {title:"楽天銀行", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "BEAUTY",  shape: 'circularImage', image: DIR + 'Logo_BEAUTY.png', data : {title:"楽天Beauty", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "BOOKS",  shape: 'circularImage', image: DIR + 'Logo_BOOKS.png', data : {title:"楽天ブークス", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "BRAND",  shape: 'circularImage', image: DIR + 'Logo_BRAND.png', data : {title:"楽天Brand Avenue", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "CAR",  shape: 'circularImage', image: DIR + 'Logo_CAR.png', data : {title:"楽天Car Insurance", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "CARD",  shape: 'circularImage', image: DIR + 'Logo_CARD.png', data : {title:"楽天カード", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "SEC",  shape: 'circularImage', image: DIR + 'Logo_SEC.png', data : {title:"楽天市証券", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "DENWA",  shape: 'circularImage', image: DIR + 'Logo_DENWA.png', data : {title:"DENWA", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "EDY",  shape: 'circularImage', image: DIR + 'Logo_EDY.png', data : {title:"EDY", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "HOKEN",  shape: 'circularImage', image: DIR + 'Logo_HOKEN.png', data : {title:"楽天保険", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "KEIBA",  shape: 'circularImage', image: DIR + 'Logo_KEIBA.png', data : {title:"楽天競馬", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "KOBO",  shape: 'circularImage', image: DIR + 'Logo_KOBO.png', data : {title:"KOBO", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "LOTO",  shape: 'circularImage', image: DIR + 'Logo_LOTO.png', data : {title:"LOTO", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "MAG",  shape: 'circularImage', image: DIR + 'Logo_MAG.png', data : {title:"Magazine", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "MOBILE",  shape: 'circularImage', image: DIR + 'Logo_MOBILE.png', data : {title:"モバイル", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "MUSIC",  shape: 'circularImage', image: DIR + 'Logo_MUSIC.png', data : {title:"Music", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "PAY",  shape: 'circularImage', image: DIR + 'Logo_PAY.png', data : {title:"PAY", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "POINTCARD",  shape: 'circularImage', image: DIR + 'Logo_POINTCARD.png', data : {title:"楽天POINTCARD", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "RECIPE",  shape: 'circularImage', image: DIR + 'Logo_RECIPE.png', data : {title:"楽天レシピ", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "DELIVERY",  shape: 'circularImage', image: DIR + 'Logo_DELIVERY.png', data : {title:"楽天Delivery", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "TICKET",  shape: 'circularImage', image: DIR + 'Logo_TICKET.png', data : {title:"楽天Ticket", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "TOTO",  shape: 'circularImage', image: DIR + 'Logo_TOTO.png', data : {title:"楽天TOTO", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "TRAVEL",  shape: 'circularImage', image: DIR + 'Logo_TRAVEL.png', data : {title:"楽天トラベル", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "TV",  shape: 'circularImage', image: DIR + 'Logo_TV.png', data : {title:"楽天TV", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "WEB",  shape: 'circularImage', image: DIR + 'Logo_WEB.png', data : {title:"楽天Web Search", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "ROOM",  shape: 'circularImage', image: DIR + 'Logo_ROOM.png', data : {title:"Room", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "SHOPSTYLE",  shape: 'circularImage', image: DIR + 'Logo_SHOPSTYLE.png', data : {title:"Shopstyle", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "VIBER",  shape: 'circularImage', image: DIR + 'Logo_VIBER.png', data : {title:"Viber", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
           /*
           {id: 15, shape: 'circularImage', image: DIR + 'missing.png', brokenImage: DIR + 'missingBrokenImage.png', label:"when images\nfail\nto load"},
           {id: 16, shape: 'circularImage', image: DIR + 'anotherMissing.png', brokenImage: DIR + '9.png', label:"fallback image in action"}
@@ -194,15 +213,46 @@
           }
         };
         network = new vis.Network(container, data, options);
+        var currentService = {
+          title : "title",
+          body : "body"
+        };
+
         network.on("click", function (params) {
             params.event = "[original event]";
             var objId = this.getNodeAt(params.pointer.DOM);
+            // init object
+            currentService.title = "";
+            currentService.body = "";
+            
             if (objId==undefined) {
               document.getElementById("info-pane").style.visibility="hidden";
             } else {
+              //grab the title and body for the card
+              for (const line in data.nodes) {
+                if (data.nodes.hasOwnProperty(line)) {
+                  const element = data.nodes[line];
+                  if (element.id == objId) {
+                    if (element.hasOwnProperty("data")) {
+                      if (element.data.hasOwnProperty("title")) {
+                        currentService.title = element.data.title;
+                      } 
+                      if (element.data.hasOwnProperty("body")) {
+                        currentService.body = element.data.body;
+                      }
+                    }
+                    break;
+                  }
+                }
+              }
+              //grab the image
               var imgSrc = "00assets/Logo_" + this.getNodeAt(params.pointer.DOM) + ".png";
-              console.log (imgSrc);
               document.getElementById('cardImg').setAttribute("src", imgSrc);
+              console.log ()
+              document.getElementById('cardTitle').innerHTML = ""; // clear the existing HTML
+              document.getElementById('cardBody').innerHTML = ""; // clear the existing HTML
+              document.getElementById('cardTitle').innerHTML = "<h1>" + currentService.title + "</h1>";
+              document.getElementById('cardBody').innerHTML = "<p>" + currentService.body + "</p>";
               document.getElementById("info-pane").style.visibility="visible";
             }
             
@@ -218,10 +268,13 @@
     <div id="mynetwork"></div>
     <div class="card" id="info-pane" style="visibility: hidden;">
       <div class="cardContents">
-        <img id="cardImg" src="00assets/Logo_ICHIBA.png" alt="Avatar" style="width:170px">
-        <div class="container">
-          <h4><b>John Doe</b></h4> 
-          <p>Architect & Engineer</p> 
+        <div class="imgContainer">
+          <img id="cardImg" src="00assets/Logo_ICHIBA.png" alt="Avatar" style="width:170px" />
+        </div>
+        <div id="cardTitle" class="cardText">
+        </div>
+        <div id="cardBody" class="cardText">
+
         </div>
     </div>
     </div>
