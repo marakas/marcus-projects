@@ -37,6 +37,10 @@
         .container {
         padding: 2px 16px;
         }
+
+        .cardContents {
+            margin: 100px;
+        }
   </style>
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
@@ -193,23 +197,17 @@
         network.on("click", function (params) {
             params.event = "[original event]";
             var objId = this.getNodeAt(params.pointer.DOM);
-            if (objId==undefined) return;
-            var imgSrc = "00assets/Logo_" + this.getNodeAt(params.pointer.DOM) + ".png";
-            console.log (imgSrc);
-            //document.getElementById('cardImg').setAttribute("src", "00assets/Logo_Viber.png");// = '<h2>Click event:</h2>' + JSON.stringify(params, null, 4);
-            document.getElementById('cardImg').setAttribute("src", imgSrc);
-            document.getElementById("info-pane").style.visibility="visible";
-            //console.log('click event, getNodeAt returns: ' + this.getNodeAt(params.pointer.DOM));
+            if (objId==undefined) {
+              document.getElementById("info-pane").style.visibility="hidden";
+            } else {
+              var imgSrc = "00assets/Logo_" + this.getNodeAt(params.pointer.DOM) + ".png";
+              console.log (imgSrc);
+              document.getElementById('cardImg').setAttribute("src", imgSrc);
+              document.getElementById("info-pane").style.visibility="visible";
+            }
+            
         });
         
-        /*function handleInteraction (event){
-          document.getElementById("info-pane").style.visibility="visible";
-          console.log(event);
-        }
-        document.getElementById("mynetwork").addEventListener("click", handleInteraction);
-        */
-       // console.log(network.getSeed());
-        //console.log("hi 10");
       }
     </script>
     
@@ -219,11 +217,13 @@
 
     <div id="mynetwork"></div>
     <div class="card" id="info-pane" style="visibility: hidden;">
-      <img id="cardImg" src="00assets/Logo_ICHIBA.png" alt="Avatar" style="width:10%">
-      <div class="container">
-        <h4><b>John Doe</b></h4> 
-        <p>Architect & Engineer</p> 
-      </div>
+      <div class="cardContents">
+        <img id="cardImg" src="00assets/Logo_ICHIBA.png" alt="Avatar" style="width:170px">
+        <div class="container">
+          <h4><b>John Doe</b></h4> 
+          <p>Architect & Engineer</p> 
+        </div>
+    </div>
     </div>
   </body>
 </html>
