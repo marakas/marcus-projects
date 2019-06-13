@@ -1,180 +1,229 @@
 
 <!doctype html>
 <html>
-<head>
-  <title>Network | Circular images</title>
+  <head>
+    <title>Network | Circular images</title>
 
-  <style type="text/css">
-    body {
-      font: 10pt arial;
-    }
-    #mynetwork {
-      width: 1080px;
-      height: 1920px;
-      border: 1px solid lightgray;
-      background-color:#333333;
-    }
+    <style type="text/css">
+      body {
+        font: 10pt arial;
+      }
+      #mynetwork {
+        width: 960px;
+        height: 1460px;
+        border: 1px solid lightgray;
+        background-color:#303352;
+      }
+    </style>
+    <style>
+        .card {
+        /* Add shadows to create the "card" effect */
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.5s;
+        position: absolute;
+        top: 950px;
+        left: 0px;
+        background-color: white;
+        width: 100%;
+        height: 100%;
+        }
+
+        /* On mouse-over, add a deeper shadow */
+        .card:hover {
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        }
+
+        /* Add some padding inside the card container */
+        .container {
+        padding: 2px 16px;
+        }
   </style>
 
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis-network.min.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis-network.min.css" rel="stylesheet" type="text/css" />
 
-  <script type="text/javascript"> 
-    var DIR = 'img/soft-scraps-icons/';
+    <script type="text/javascript"> 
+      var DIR = 'img/soft-scraps-icons/';
 
-    var nodes = null;
-    var edges = null;
-    var network = null;
+      var nodes = null;
+      var edges = null;
+      var network = null;
 
-    // Called when the Visualization API is loaded.
-    function draw() {
-      // create people.
-      // value corresponds with the age of the person
-      var DIR = '00assets/';
-      nodes = [
-        {id: "ICHIBA",  shape: 'circularImage', image: DIR + 'Logo__Rakuten Ichiba.png'},
-        {id: "FCB",  shape: 'circularImage', image: DIR + 'Logo__FC Barcelona.png'},
-        {id: "GORA",  shape: 'circularImage', image: DIR + 'Logo_GORA.png'},
-        {id: "INFO",  shape: 'circularImage', image: DIR + 'Logo_Infoseek.png'},
-        {id: "RAGRI",  shape: 'circularImage', image: DIR + 'Logo_Ragri.png'},
-        {id: "RAKUMA",  shape: 'circularImage', image: DIR + 'Logo_Rakuma.png'},
-        {id: "BANK",  shape: 'circularImage', image: DIR + 'Logo_Rakuten Bank.png'},
-        {id: "BEAUTY",  shape: 'circularImage', image: DIR + 'Logo_Rakuten Beauty.png'},
-        {id: "BOOKS",  shape: 'circularImage', image: DIR + 'Logo_Rakuten Books.png'},
-        {id: "BRAND",  shape: 'circularImage', image: DIR + 'Logo_Rakuten BRAND AVENUE.png'},
-        {id: "CAR",  shape: 'circularImage', image: DIR + 'Logo_Rakuten Car Service.png'},
-        {id: "CARD",  shape: 'circularImage', image: DIR + 'Logo_Rakuten Card.png'},
-        {id: "SEC",  shape: 'circularImage', image: DIR + 'Logo_Rakuten SEC.png'},
-        {id: "DENWA",  shape: 'circularImage', image: DIR + 'Logo_Rakuten Denwa.png'},
-        {id: "EDY",  shape: 'circularImage', image: DIR + 'Logo_Rakuten Edy.png'},
-        {id: "HOKEN",  shape: 'circularImage', image: DIR + 'Logo_Rakuten Hoken.png'},
-        {id: "KEIBA",  shape: 'circularImage', image: DIR + 'Logo_Rakuten Keiba.png'},
-        {id: "KOBO",  shape: 'circularImage', image: DIR + 'Logo_Rakuten kobo.png'},
-        {id: "LOTO",  shape: 'circularImage', image: DIR + 'Logo_Rakuten LOTO.png'},
-        {id: "MAG",  shape: 'circularImage', image: DIR + 'Logo_Rakuten Magazine.png'},
-        {id: "MOBILE",  shape: 'circularImage', image: DIR + 'Logo_Rakuten Mobile.png'},
-        {id: "MUSIC",  shape: 'circularImage', image: DIR + 'Logo_Rakuten Music.png'},
-        {id: "PAY",  shape: 'circularImage', image: DIR + 'Logo_Rakuten Pay.png'},
-        {id: "POINT",  shape: 'circularImage', image: DIR + 'Logo_Rakuten Pointcard.png'},
-        {id: "RECIPE",  shape: 'circularImage', image: DIR + 'Logo_Rakuten Recipe.png'},
-        {id: "DELIVERY",  shape: 'circularImage', image: DIR + 'Logo_Rakuten Delivery.png'},
-        {id: "TICKET",  shape: 'circularImage', image: DIR + 'Logo_Rakuten Ticket.png'},
-        {id: "TOTO",  shape: 'circularImage', image: DIR + 'Logo_Rakuten toto.png'},
-        {id: "TRAVEL",  shape: 'circularImage', image: DIR + 'Logo_Rakuten Travel.png'},
-        {id: "TV",  shape: 'circularImage', image: DIR + 'Logo_Rakuten TV.png'},
-        {id: "WEB",  shape: 'circularImage', image: DIR + 'Logo_Rakuten Web Search.png'},
-        {id: "ROOM",  shape: 'circularImage', image: DIR + 'Logo_ROOM.png'},
-        {id: "SHOPSTYLE",  shape: 'circularImage', image: DIR + 'Logo_SHOPSTYLE.png'},
-        {id: "VIBER",  shape: 'circularImage', image: DIR + 'Logo_Viber.png'},
-        /*
-        {id: 15, shape: 'circularImage', image: DIR + 'missing.png', brokenImage: DIR + 'missingBrokenImage.png', label:"when images\nfail\nto load"},
-        {id: 16, shape: 'circularImage', image: DIR + 'anotherMissing.png', brokenImage: DIR + '9.png', label:"fallback image in action"}
-        */
-      ];
+      // Called when the Visualization API is loaded.
+      function draw() {
+        // create people.
+        // value corresponds with the age of the person
+        var DIR = '00assets/';
+        nodes = [
+          {id: "ICHIBA",  shape: 'circularImage', image: DIR + 'Logo_ICHIBA.png'},
+          {id: "BARCA",  shape: 'circularImage', image: DIR + 'Logo_BARCA.png'},
+          {id: "GORA",  shape: 'circularImage', image: DIR + 'Logo_GORA.png'},
+          {id: "INFO",  shape: 'circularImage', image: DIR + 'Logo_INFO.png'},
+          {id: "RAGRI",  shape: 'circularImage', image: DIR + 'Logo_RAGRI.png'},
+          {id: "RAKUMA",  shape: 'circularImage', image: DIR + 'Logo_RAKUMA.png'},
+          {id: "BANK",  shape: 'circularImage', image: DIR + 'Logo_BANK.png'},
+          {id: "BEAUTY",  shape: 'circularImage', image: DIR + 'Logo_BEAUTY.png'},
+          {id: "BOOKS",  shape: 'circularImage', image: DIR + 'Logo_BOOKS.png'},
+          {id: "BRAND",  shape: 'circularImage', image: DIR + 'Logo_BRAND.png'},
+          {id: "CAR",  shape: 'circularImage', image: DIR + 'Logo_CAR.png'},
+          {id: "CARD",  shape: 'circularImage', image: DIR + 'Logo_CARD.png'},
+          {id: "SEC",  shape: 'circularImage', image: DIR + 'Logo_SEC.png'},
+          {id: "DENWA",  shape: 'circularImage', image: DIR + 'Logo_DENWA.png'},
+          {id: "EDY",  shape: 'circularImage', image: DIR + 'Logo_EDY.png'},
+          {id: "HOKEN",  shape: 'circularImage', image: DIR + 'Logo_HOKEN.png'},
+          {id: "KEIBA",  shape: 'circularImage', image: DIR + 'Logo_KEIBA.png'},
+          {id: "KOBO",  shape: 'circularImage', image: DIR + 'Logo_KOBO.png'},
+          {id: "LOTO",  shape: 'circularImage', image: DIR + 'Logo_LOTO.png'},
+          {id: "MAG",  shape: 'circularImage', image: DIR + 'Logo_MAG.png'},
+          {id: "MOBILE",  shape: 'circularImage', image: DIR + 'Logo_MOBILE.png'},
+          {id: "MUSIC",  shape: 'circularImage', image: DIR + 'Logo_MUSIC.png'},
+          {id: "PAY",  shape: 'circularImage', image: DIR + 'Logo_PAY.png'},
+          {id: "POINTCARD",  shape: 'circularImage', image: DIR + 'Logo_POINTCARD.png'},
+          {id: "RECIPE",  shape: 'circularImage', image: DIR + 'Logo_RECIPE.png'},
+          {id: "DELIVERY",  shape: 'circularImage', image: DIR + 'Logo_DELIVERY.png'},
+          {id: "TICKET",  shape: 'circularImage', image: DIR + 'Logo_TICKET.png'},
+          {id: "TOTO",  shape: 'circularImage', image: DIR + 'Logo_TOTO.png'},
+          {id: "TRAVEL",  shape: 'circularImage', image: DIR + 'Logo_TRAVEL.png'},
+          {id: "TV",  shape: 'circularImage', image: DIR + 'Logo_TV.png'},
+          {id: "WEB",  shape: 'circularImage', image: DIR + 'Logo_WEB.png'},
+          {id: "ROOM",  shape: 'circularImage', image: DIR + 'Logo_ROOM.png'},
+          {id: "SHOPSTYLE",  shape: 'circularImage', image: DIR + 'Logo_SHOPSTYLE.png'},
+          {id: "VIBER",  shape: 'circularImage', image: DIR + 'Logo_VIBER.png'},
+          /*
+          {id: 15, shape: 'circularImage', image: DIR + 'missing.png', brokenImage: DIR + 'missingBrokenImage.png', label:"when images\nfail\nto load"},
+          {id: 16, shape: 'circularImage', image: DIR + 'anotherMissing.png', brokenImage: DIR + '9.png', label:"fallback image in action"}
+          */
+        ];
 
-      // create connections between people
-      // value corresponds with the amount of contact between two people
-      edges = [
-        //temp from here 
-        {from: "ICHIBA", to: "FCB"},
-        {from: "ICHIBA", to: "ROOM"},
-        {from: "ICHIBA", to: "SHOPSTYLE"},
-        {from: "ICHIBA", to: "RAGRI"},
-        {from: "ICHIBA", to: "BRAND"},
-        {from: "ICHIBA", to: "EDY"},
-        {from: "ROOM", to: "EDY"},
-        {from: "ICHIBA", to: "RECIPE"},
-        {from: "RAGRI", to: "PAY"},
-        {from: "RAGRI", to: "EDY"},
-        {from: "RECIPE", to: "DELIVERY"},
-        {from: "ICHIBA", to: "CAR"},
-        {from: "ICHIBA", to: "BEAUTY"},
-        {from: "BEAUTY", to: "WEB"},
-        {from: "ICHIBA", to: "TRAVEL"},
-        {from: "TRAVEL", to: "MUSIC"},
-        {from: "BRAND", to: "SEC"},
-        {from: "RAGRI", to: "GORA"},
-        {from: "EDY", to: "GORA"},
-        {from: "GORA", to: "POINT"},
-        {from: "ICHIBA", to: "MOBILE"},
-        {from: "BEAUTY", to: "MOBILE"},
-        {from: "MOBILE", to: "POINT"},
-        {from: "POINT", to: "BOOKS"},
-        {from: "WEB", to: "BOOKS"},
-        {from: "WEB", to: "VIBER"},
-      /*  {from: "ICHIBA", to: 30},
-        {from: "ICHIBA", to: 31},
-        {from: "ICHIBA", to: 32},
-        {from: "ICHIBA", to: 33},
-        {from:7, to: 13},
-        {from:25, to: 26},*/
-        
-      ];
+        // create connections between people
+        // value corresponds with the amount of contact between two people
+        edges = [
+          //temp from here 
+          {from: "ICHIBA", to: "BARCA"},
+          {from: "ICHIBA", to: "ROOM"},
+          {from: "ICHIBA", to: "SHOPSTYLE"},
+          {from: "ICHIBA", to: "RAGRI"},
+          {from: "ICHIBA", to: "BRAND"},
+          {from: "ICHIBA", to: "EDY"},
+          {from: "ROOM", to: "EDY"},
+          {from: "ICHIBA", to: "RECIPE"},
+          {from: "RAGRI", to: "PAY"},
+          {from: "RAGRI", to: "EDY"},
+          {from: "RECIPE", to: "DELIVERY"},
+          {from: "ICHIBA", to: "CAR"},
+          {from: "ICHIBA", to: "BEAUTY"},
+          {from: "BEAUTY", to: "WEB"},
+          {from: "ICHIBA", to: "TRAVEL"},
+          {from: "TRAVEL", to: "MUSIC"},
+          {from: "BRAND", to: "SEC"},
+          {from: "RAGRI", to: "GORA"},
+          {from: "EDY", to: "GORA"},
+          {from: "GORA", to: "POINTCARD"},
+          {from: "ICHIBA", to: "MOBILE"},
+          {from: "BEAUTY", to: "MOBILE"},
+          {from: "MOBILE", to: "POINTCARD"},
+          {from: "POINT", to: "BOOKS"},
+          {from: "WEB", to: "BOOKS"},
+          {from: "WEB", to: "VIBER"},
+        /*  {from: "ICHIBA", to: 30},
+          {from: "ICHIBA", to: 31},
+          {from: "ICHIBA", to: 32},
+          {from: "ICHIBA", to: 33},
+          {from:7, to: 13},
+          {from:25, to: 26},*/
+          
+        ];
 
-      // create a network
-      var container = document.getElementById('mynetwork');
-      var data = {
-        nodes: nodes,
-        edges: edges
-      };
-      var options = {
-        nodes: {
-          borderWidth:5,
-          size:70,
-          color: {
-            border: '#dddddd',
-            background: '#666666'
+        // create a network
+        var container = document.getElementById('mynetwork');
+        var data = {
+          nodes: nodes,
+          edges: edges
+        };
+        var options = {
+          nodes: {
+            borderWidth:5,
+            size:70,
+            color: {
+              border: '#dddddd',
+              background: '#666666'
+            },
+            font:{color:'#eeeeee'}
           },
-          font:{color:'#eeeeee'}
-        },
-        physics:{
-          /*forceAtlas2Based: {
-            gravitationalConstant: -50,
-            centralGravity: 0.01,
-            springConstant: 0.08,
-            springLength: 300,
-            damping: 0.4,
-            avoidOverlap: 1
-          }*/
-          barnesHut: {
-            gravitationalConstant: -20000,
-            centralGravity: 0.3,
-            //springLength: 40,
-            springConstant: 0.04,
-            damping: 0.5,
-            avoidOverlap: 1
+          physics:{
+            /*forceAtlas2Based: {
+              gravitationalConstant: -50,
+              centralGravity: 0.01,
+              springConstant: 0.08,
+              springLength: 300,
+              damping: 0.4,
+              avoidOverlap: 1
+            }*/
+            barnesHut: {
+              gravitationalConstant: -20000,
+              centralGravity: 0.3,
+              //springLength: 40,
+              springConstant: 0.04,
+              damping: 0.5,
+              avoidOverlap: 1
+            },
+            solver: 'barnesHut',
+            stabilization: {
+              fit: false
+            }
           },
-          solver: 'barnesHut',
-          stabilization: {
-            fit: false
+
+          width: '960px',
+          height: '1460px',
+
+          layout: {
+              //improvedLayout: true,
+              randomSeed:4
+          },
+          interaction: {
+            zoomView: false
+          },
+          edges: {
+            color: '#fffff',
+            //length: 300,
+            width: 2
           }
-        },
+        };
+        network = new vis.Network(container, data, options);
+        network.on("click", function (params) {
+            params.event = "[original event]";
+            var objId = this.getNodeAt(params.pointer.DOM);
+            if (objId==undefined) return;
+            var imgSrc = "00assets/Logo_" + this.getNodeAt(params.pointer.DOM) + ".png";
+            console.log (imgSrc);
+            //document.getElementById('cardImg').setAttribute("src", "00assets/Logo_Viber.png");// = '<h2>Click event:</h2>' + JSON.stringify(params, null, 4);
+            document.getElementById('cardImg').setAttribute("src", imgSrc);
+            document.getElementById("info-pane").style.visibility="visible";
+            //console.log('click event, getNodeAt returns: ' + this.getNodeAt(params.pointer.DOM));
+        });
         
-        //height: '1080px',
-        //width: '1920px',
-
-        layout: {
-            //improvedLayout: true,
-            randomSeed:3
-        },
-        interaction: {
-          zoomView: true
-        },
-        edges: {
-          color: '#fffff',
-          //length: 300,
-          width: 3
+        /*function handleInteraction (event){
+          document.getElementById("info-pane").style.visibility="visible";
+          console.log(event);
         }
-      };
-      network = new vis.Network(container, data, options);
-      console.log(network.getSeed());
-    }
-  </script>
-  
-</head>
+        document.getElementById("mynetwork").addEventListener("click", handleInteraction);
+        */
+       // console.log(network.getSeed());
+        //console.log("hi 10");
+      }
+    </script>
+    
+  </head>
 
-<body onload="draw()">
+  <body onload="draw()">
 
-<div id="mynetwork"></div>
-</body>
+    <div id="mynetwork"></div>
+    <div class="card" id="info-pane" style="visibility: hidden;">
+      <img id="cardImg" src="00assets/Logo_ICHIBA.png" alt="Avatar" style="width:10%">
+      <div class="container">
+        <h4><b>John Doe</b></h4> 
+        <p>Architect & Engineer</p> 
+      </div>
+    </div>
+  </body>
 </html>
