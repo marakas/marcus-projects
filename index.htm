@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
 
   <head>
-    <title>Network | Circular images</title>
+    <title>楽天MixedJuice!</title>
 
     <style type="text/css">
       body {
@@ -35,18 +35,33 @@
         box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
         }
         .imgContainer {
-          float:left;
           margin-right: 26px;
         }
         #cardImg {
           
+        }
+        #mixButton {
+          
+        }
+        .helper {
+            display: inline-block;
+            height: 100%;
+            vertical-align: middle;
         }
         /* Add some padding inside the card container */
         .cardText {
           padding: 2px 16px;
           
         }
-
+        .imgButton {
+          vertical-align: middle;
+        }
+        #titleContainer {
+          display: flex;
+        }
+        #cardTitle {
+          width: 650px;
+        }
         .cardText h1 {
           font-size: 44pt;
         }
@@ -58,7 +73,7 @@
           clear: both;
         }
         .cardContents {
-            margin: 100px;
+            margin: 30px;
         }
   </style>
 
@@ -111,11 +126,7 @@
           {id: "WEB",  shape: 'circularImage', image: DIR + 'Logo_WEB.png', data : {title:"楽天Web Search", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
           {id: "ROOM",  shape: 'circularImage', image: DIR + 'Logo_ROOM.png', data : {title:"Room", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
           {id: "SHOPSTYLE",  shape: 'circularImage', image: DIR + 'Logo_SHOPSTYLE.png', data : {title:"Shopstyle", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
-          {id: "VIBER",  shape: 'circularImage', image: DIR + 'Logo_VIBER.png', data : {title:"Viber", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
-          /*
-          {id: 15, shape: 'circularImage', image: DIR + 'missing.png', brokenImage: DIR + 'missingBrokenImage.png', label:"when images\nfail\nto load"},
-          {id: 16, shape: 'circularImage', image: DIR + 'anotherMissing.png', brokenImage: DIR + '9.png', label:"fallback image in action"}
-          */
+          {id: "VIBER",  shape: 'circularImage', image: DIR + 'Logo_VIBER.png', data : {title:"Viber", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}}
         ];
 
         // create connections between people
@@ -147,14 +158,7 @@
           {from: "MOBILE", to: "POINTCARD"},
           {from: "POINT", to: "BOOKS"},
           {from: "WEB", to: "BOOKS"},
-          {from: "WEB", to: "VIBER"},
-        /*  {from: "ICHIBA", to: 30},
-          {from: "ICHIBA", to: 31},
-          {from: "ICHIBA", to: 32},
-          {from: "ICHIBA", to: 33},
-          {from:7, to: 13},
-          {from:25, to: 26},*/
-          
+          {from: "WEB", to: "VIBER"}
         ];
 
         // create a network
@@ -174,18 +178,9 @@
             font:{color:'#eeeeee'}
           },
           physics:{
-            /*forceAtlas2Based: {
-              gravitationalConstant: -50,
-              centralGravity: 0.01,
-              springConstant: 0.08,
-              springLength: 300,
-              damping: 0.4,
-              avoidOverlap: 1
-            }*/
             barnesHut: {
               gravitationalConstant: -20000,
               centralGravity: 0.3,
-              //springLength: 40,
               springConstant: 0.04,
               damping: 0.5,
               avoidOverlap: 1
@@ -200,15 +195,13 @@
           height: '1460px',
 
           layout: {
-              //improvedLayout: true,
               randomSeed:4
           },
           interaction: {
-            zoomView: false
+            zoomView: true
           },
           edges: {
             color: '#fffff',
-            //length: 300,
             width: 2
           }
         };
@@ -268,14 +261,15 @@
     <div id="mynetwork"></div>
     <div class="card" id="info-pane" style="visibility: hidden;">
       <div class="cardContents">
-        <div class="imgContainer">
-          <img id="cardImg" src="00assets/Logo_ICHIBA.png" alt="Avatar" style="width:170px" />
+        <div id="titleContainer">
+          <div class="imgContainer">
+            <img id="cardImg" src="00assets/Logo_ICHIBA.png" alt="Avatar" style="width:170px" />
+          </div>
+          <div id="cardTitle" class="cardText">
+          </div>
+          <div id="mixButton" ><span class="helper"></span><img class="imgButton" src="00assets/plus.png" /></div>
         </div>
-        <div id="cardTitle" class="cardText">
-        </div>
-        <div id="cardBody" class="cardText">
-
-        </div>
+        <div id="cardBody" class="cardText"></div>
     </div>
     </div>
   </body>
