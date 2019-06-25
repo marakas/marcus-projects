@@ -21,7 +21,8 @@
         .card {
         /* Add shadows to create the "card" effect */
         box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-        transition: 0.5s;
+        border-radius: 40px;
+        /*transition: visibility ease-in 0.5s; - BUG: transitions don't work on visiblity, find another way to animate this */
         position: absolute;
         top: 950px;
         left: 0px;
@@ -41,26 +42,49 @@
           
         }
         #mixButton {
-          
+          display:flex;
         }
         .helper {
             display: inline-block;
             height: 100%;
             vertical-align: middle;
+            width: 115px;
+        }
+        .helper1 {
+            display: inline-block;
+            height: 100%;
+            vertical-align: middle;
+            /*width: px;*/
         }
         /* Add some padding inside the card container */
         .cardText {
           padding: 2px 16px;
           
         }
-        .imgButton {
+        .imgButton, #mixMark {
           vertical-align: middle;
         }
-        #titleContainer {
+        #btnAddSecondToMix .imgButton {
+          height:64px;
+          width:64px;
+          margin-left: 37px;
+          margin-bottom: 8px;
+        }
+        .titleContainer {
           display: flex;
         }
+        #mixBody {
+          display: flex;
+        }
+        .mix, #mixBody{
+          justify-content: center;
+        }
+        .titleContainer h1.mixTitle {
+          font-size:50pt;
+          color: #888888;
+        }
         #cardTitle {
-          width: 650px;
+          width: 500px;
         }
         .cardText h1 {
           font-size: 44pt;
@@ -73,7 +97,60 @@
           clear: both;
         }
         .cardContents {
-            margin: 30px;
+          margin: 30px;
+          display:flex;
+          flex-flow: column nowrap;
+          align-content: center;
+          justify-content: center;
+        }
+        .bigPinkButton{
+          font-size: 50pt;
+          border: medium solid #ff00ff;
+          border-radius: 5%;
+          align-self: center;
+          margin-top: 50px;
+          padding: 2px 10px 2px 10px;
+          background: #ff00bb;
+          color: white; 
+        }
+        .mixImageSelected{
+          border-radius: 50%;
+          box-shadow:  0px 0px 5px 5px #ff00bb;
+        }
+        #btnAddSecondToMix{
+          display: flex;
+          flex-flow: column nowrap;
+          align-content: center;
+          justify-content: center;
+        }
+        #addToMixText{
+          font-size: 22pt;
+        }
+        #opaque {
+          opacity: 0.7;
+          width: 100%;
+          height:1470px;
+          position: absolute;
+          top: 0;
+          left: 0;
+          background-color: #303352;
+          display:  none;
+          -webkit-transition: opacity 2s ease-in;
+          -moz-transition: opacity 2s ease-in;
+          -o-transition: opacity 2s ease-in;
+          -ms-transition: opacity 2s ease-in;
+          transition: opacity 2s ease-in;
+        }
+        #fake_mix_overlay {
+          position: absolute;
+          top: 30%;
+          left: 30%;
+          display: none;
+        }
+
+        .fake_overlay_image {
+          border: 16px solid #99ff00;
+          border-radius: 50%;
         }
   </style>
 
@@ -87,46 +164,52 @@
       var edges = null;
       var network = null;
 
+      var changeChosenNodeBorderColor =
+        function(values, id, selected, hovering) {
+          values.borderWidth = 30;
+          values.borderColor = "#99ff00";
+        }
+
       // Called when the Visualization API is loaded.
       function draw() {
         // create people.
         // value corresponds with the age of the person
         var DIR = '00assets/';
         nodes = [
-          {id: "ICHIBA",  shape: 'circularImage', image: DIR + 'Logo_ICHIBA.png', data : {title:"楽天市場", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
-          {id: "BARCA",  shape: 'circularImage', image: DIR + 'Logo_BARCA.png', data : {title:"FCB", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
-          {id: "GORA",  shape: 'circularImage', image: DIR + 'Logo_GORA.png', data : {title:"GORA", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
-          {id: "INFO",  shape: 'circularImage', image: DIR + 'Logo_INFO.png', data : {title:"Infoseek", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
-          {id: "RAGRI",  shape: 'circularImage', image: DIR + 'Logo_RAGRI.png', data : {title:"RAGRI", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
-          {id: "RAKUMA",  shape: 'circularImage', image: DIR + 'Logo_RAKUMA.png', data : {title:"Rakuma", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
-          {id: "BANK",  shape: 'circularImage', image: DIR + 'Logo_BANK.png', data : {title:"楽天銀行", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
-          {id: "BEAUTY",  shape: 'circularImage', image: DIR + 'Logo_BEAUTY.png', data : {title:"楽天Beauty", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
-          {id: "BOOKS",  shape: 'circularImage', image: DIR + 'Logo_BOOKS.png', data : {title:"楽天ブークス", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
-          {id: "BRAND",  shape: 'circularImage', image: DIR + 'Logo_BRAND.png', data : {title:"楽天Brand Avenue", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
-          {id: "CAR",  shape: 'circularImage', image: DIR + 'Logo_CAR.png', data : {title:"楽天Car Insurance", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
-          {id: "CARD",  shape: 'circularImage', image: DIR + 'Logo_CARD.png', data : {title:"楽天カード", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
-          {id: "SEC",  shape: 'circularImage', image: DIR + 'Logo_SEC.png', data : {title:"楽天市証券", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
-          {id: "DENWA",  shape: 'circularImage', image: DIR + 'Logo_DENWA.png', data : {title:"DENWA", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
-          {id: "EDY",  shape: 'circularImage', image: DIR + 'Logo_EDY.png', data : {title:"EDY", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
-          {id: "HOKEN",  shape: 'circularImage', image: DIR + 'Logo_HOKEN.png', data : {title:"楽天保険", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
-          {id: "KEIBA",  shape: 'circularImage', image: DIR + 'Logo_KEIBA.png', data : {title:"楽天競馬", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
-          {id: "KOBO",  shape: 'circularImage', image: DIR + 'Logo_KOBO.png', data : {title:"KOBO", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
-          {id: "LOTO",  shape: 'circularImage', image: DIR + 'Logo_LOTO.png', data : {title:"LOTO", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
-          {id: "MAG",  shape: 'circularImage', image: DIR + 'Logo_MAG.png', data : {title:"Magazine", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
-          {id: "MOBILE",  shape: 'circularImage', image: DIR + 'Logo_MOBILE.png', data : {title:"モバイル", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
-          {id: "MUSIC",  shape: 'circularImage', image: DIR + 'Logo_MUSIC.png', data : {title:"Music", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
-          {id: "PAY",  shape: 'circularImage', image: DIR + 'Logo_PAY.png', data : {title:"PAY", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
-          {id: "POINTCARD",  shape: 'circularImage', image: DIR + 'Logo_POINTCARD.png', data : {title:"楽天POINTCARD", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
-          {id: "RECIPE",  shape: 'circularImage', image: DIR + 'Logo_RECIPE.png', data : {title:"楽天レシピ", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
-          {id: "DELIVERY",  shape: 'circularImage', image: DIR + 'Logo_DELIVERY.png', data : {title:"楽天Delivery", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
-          {id: "TICKET",  shape: 'circularImage', image: DIR + 'Logo_TICKET.png', data : {title:"楽天Ticket", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
-          {id: "TOTO",  shape: 'circularImage', image: DIR + 'Logo_TOTO.png', data : {title:"楽天TOTO", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
-          {id: "TRAVEL",  shape: 'circularImage', image: DIR + 'Logo_TRAVEL.png', data : {title:"楽天トラベル", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
-          {id: "TV",  shape: 'circularImage', image: DIR + 'Logo_TV.png', data : {title:"楽天TV", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
-          {id: "WEB",  shape: 'circularImage', image: DIR + 'Logo_WEB.png', data : {title:"楽天Web Search", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
-          {id: "ROOM",  shape: 'circularImage', image: DIR + 'Logo_ROOM.png', data : {title:"Room", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
-          {id: "SHOPSTYLE",  shape: 'circularImage', image: DIR + 'Logo_SHOPSTYLE.png', data : {title:"Shopstyle", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
-          {id: "VIBER",  shape: 'circularImage', image: DIR + 'Logo_VIBER.png', data : {title:"Viber", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}}
+          {id: "ICHIBA", shape: 'circularImage', image: DIR + 'Logo_ICHIBA.png', chosen: { label: false, node: changeChosenNodeBorderColor }, data : {title:"楽天市場", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "BARCA", shape: 'circularImage', image: DIR + 'Logo_BARCA.png', chosen: { label: false, node: changeChosenNodeBorderColor }, data : {title:"FCB", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "GORA", shape: 'circularImage', image: DIR + 'Logo_GORA.png', chosen: { label: false, node: changeChosenNodeBorderColor },  data : {title:"GORA", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "INFO", shape: 'circularImage', image: DIR + 'Logo_INFO.png', chosen: { label: false, node: changeChosenNodeBorderColor },  data : {title:"Infoseek", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "RAGRI", shape: 'circularImage', image: DIR + 'Logo_RAGRI.png', chosen: { label: false, node: changeChosenNodeBorderColor },  data : {title:"RAGRI", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "RAKUMA", shape: 'circularImage', image: DIR + 'Logo_RAKUMA.png', chosen: { label: false, node: changeChosenNodeBorderColor },  data : {title:"Rakuma", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "BANK", shape: 'circularImage', image: DIR + 'Logo_BANK.png', chosen: { label: false, node: changeChosenNodeBorderColor },  data : {title:"楽天銀行", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "BEAUTY", shape: 'circularImage', image: DIR + 'Logo_BEAUTY.png', chosen: { label: false, node: changeChosenNodeBorderColor },  data : {title:"楽天Beauty", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "BOOKS", shape: 'circularImage', image: DIR + 'Logo_BOOKS.png', chosen: { label: false, node: changeChosenNodeBorderColor },  data : {title:"楽天ブークス", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "BRAND", shape: 'circularImage', image: DIR + 'Logo_BRAND.png', chosen: { label: false, node: changeChosenNodeBorderColor },  data : {title:"楽天Brand Avenue", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "CAR", shape: 'circularImage', image: DIR + 'Logo_CAR.png', chosen: { label: false, node: changeChosenNodeBorderColor },  data : {title:"楽天Car Insurance", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "CARD", shape: 'circularImage', image: DIR + 'Logo_CARD.png', chosen: { label: false, node: changeChosenNodeBorderColor },  data : {title:"楽天カード", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "SEC", shape: 'circularImage', image: DIR + 'Logo_SEC.png', chosen: { label: false, node: changeChosenNodeBorderColor },  data : {title:"楽天市証券", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "DENWA", shape: 'circularImage', image: DIR + 'Logo_DENWA.png', chosen: { label: false, node: changeChosenNodeBorderColor },  data : {title:"DENWA", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "EDY", shape: 'circularImage', image: DIR + 'Logo_EDY.png', chosen: { label: false, node: changeChosenNodeBorderColor },  data : {title:"EDY", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "HOKEN", shape: 'circularImage', image: DIR + 'Logo_HOKEN.png', chosen: { label: false, node: changeChosenNodeBorderColor },  data : {title:"楽天保険", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "KEIBA", shape: 'circularImage', image: DIR + 'Logo_KEIBA.png', chosen: { label: false, node: changeChosenNodeBorderColor },  data : {title:"楽天競馬", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "KOBO", shape: 'circularImage', image: DIR + 'Logo_KOBO.png', chosen: { label: false, node: changeChosenNodeBorderColor },  data : {title:"KOBO", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "LOTO", shape: 'circularImage', image: DIR + 'Logo_LOTO.png', chosen: { label: false, node: changeChosenNodeBorderColor },  data : {title:"LOTO", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "MAG", shape: 'circularImage', image: DIR + 'Logo_MAG.png', chosen: { label: false, node: changeChosenNodeBorderColor },  data : {title:"Magazine", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "MOBILE", shape: 'circularImage', image: DIR + 'Logo_MOBILE.png', chosen: { label: false, node: changeChosenNodeBorderColor },  data : {title:"モバイル", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "MUSIC", shape: 'circularImage', image: DIR + 'Logo_MUSIC.png', chosen: { label: false, node: changeChosenNodeBorderColor },  data : {title:"Music", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "PAY", shape: 'circularImage', image: DIR + 'Logo_PAY.png', chosen: { label: false, node: changeChosenNodeBorderColor },  data : {title:"PAY", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "POINTCARD", shape: 'circularImage', image: DIR + 'Logo_POINTCARD.png', chosen: { label: false, node: changeChosenNodeBorderColor },  data : {title:"楽天POINTCARD", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "RECIPE", shape: 'circularImage', image: DIR + 'Logo_RECIPE.png', chosen: { label: false, node: changeChosenNodeBorderColor },  data : {title:"楽天レシピ", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "DELIVERY", shape: 'circularImage', image: DIR + 'Logo_DELIVERY.png', chosen: { label: false, node: changeChosenNodeBorderColor },  data : {title:"楽天Delivery", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "TICKET", shape: 'circularImage', image: DIR + 'Logo_TICKET.png', chosen: { label: false, node: changeChosenNodeBorderColor },  data : {title:"楽天Ticket", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "TOTO", shape: 'circularImage', image: DIR + 'Logo_TOTO.png', chosen: { label: false, node: changeChosenNodeBorderColor },  data : {title:"楽天TOTO", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "TRAVEL", shape: 'circularImage', image: DIR + 'Logo_TRAVEL.png', chosen: { label: false, node: changeChosenNodeBorderColor },  data : {title:"楽天トラベル", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "TV", shape: 'circularImage', image: DIR + 'Logo_TV.png', chosen: { label: false, node: changeChosenNodeBorderColor },  data : {title:"楽天TV", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "WEB", shape: 'circularImage', image: DIR + 'Logo_WEB.png', chosen: { label: false, node: changeChosenNodeBorderColor },  data : {title:"楽天Web Search", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "ROOM", shape: 'circularImage', image: DIR + 'Logo_ROOM.png', chosen: { label: false, node: changeChosenNodeBorderColor },  data : {title:"Room", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "SHOPSTYLE", shape: 'circularImage', image: DIR + 'Logo_SHOPSTYLE.png', chosen: { label: false, node: changeChosenNodeBorderColor },  data : {title:"Shopstyle", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}},
+          {id: "VIBER", shape: 'circularImage', image: DIR + 'Logo_VIBER.png', chosen: { label: false, node: changeChosenNodeBorderColor },  data : {title:"Viber", body:"楽天市場はインターネット通販が楽しめる総合ショッピングモール。楽天スーパーポイントがどんどん貯まる！使える！毎日お得なクーポンも。あす楽利用で翌日にお届け。"}}
         ];
 
         // create connections between people
@@ -175,6 +258,7 @@
               border: '#dddddd',
               background: '#666666'
             },
+            
             font:{color:'#eeeeee'}
           },
           physics:{
@@ -193,11 +277,13 @@
 
           width: '960px',
           height: '1460px',
+          
 
           layout: {
               randomSeed:4
           },
           interaction: {
+            selectConnectedEdges: false,
             zoomView: true
           },
           edges: {
@@ -207,26 +293,55 @@
         };
         network = new vis.Network(container, data, options);
         var currentService = {
+          id : '',
           title : "title",
+          image : "image",
           body : "body"
         };
+
+        var mixItemOne = {
+          id:"",
+          title:"",
+          image:"",
+          body:""
+        }
+        var mixItemTwo = {
+          id:"",
+          title:"",
+          image:"",
+          body:""
+        }
+        var selectionState = false; // after one service is selected this will be true until the second service has been picked
 
         network.on("click", function (params) {
             params.event = "[original event]";
             var objId = this.getNodeAt(params.pointer.DOM);
+            
             // init object
+            currentService.id = "";
             currentService.title = "";
+            currentService.image = "";
             currentService.body = "";
             
+
             if (objId==undefined) {
+              //touching the canvas closes any panels open
               document.getElementById("info-pane").style.visibility="hidden";
+              document.getElementById("mix-pane").style.visibility="hidden";
+              hideMixButtons (); // work around for a bug where the buttons remain visible after the pane is closed..
             } else {
+              // set focus on the node
+              network.focus(objId,{'animation':true});
+
               //grab the title and body for the card
               for (const line in data.nodes) {
                 if (data.nodes.hasOwnProperty(line)) {
                   const element = data.nodes[line];
                   if (element.id == objId) {
                     if (element.hasOwnProperty("data")) {
+                      if (element.hasOwnProperty("id")) {
+                        currentService.id = element.id;
+                      }
                       if (element.data.hasOwnProperty("title")) {
                         currentService.title = element.data.title;
                       } 
@@ -238,10 +353,22 @@
                   }
                 }
               }
-              //grab the image
-              var imgSrc = "00assets/Logo_" + this.getNodeAt(params.pointer.DOM) + ".png";
+              if (objId!=undefined) {
+                //grab the image
+               // var imgSrc = "00assets/Logo_" + this.getNodeAt(params.pointer.DOM) + ".png";
+                var imgSrc = makeImage(this.getNodeAt(params.pointer.DOM));
+                currentService.image = imgSrc;
+              }
+              if (selectionState) { // the user is doing the second selection
+                hideMixButtons();
+                document.getElementById("btnAddSecondToMix").style.display="flex";
+                network.selectNodes([mixItemOne.id,currentService.id],false);        // select both nodes  
+
+              } else { // this is the first time
+                hideMixButtons();
+                document.getElementById("btnAddToMix").style.display="inline";
+              }
               document.getElementById('cardImg').setAttribute("src", imgSrc);
-              console.log ()
               document.getElementById('cardTitle').innerHTML = ""; // clear the existing HTML
               document.getElementById('cardBody').innerHTML = ""; // clear the existing HTML
               document.getElementById('cardTitle').innerHTML = "<h1>" + currentService.title + "</h1>";
@@ -250,27 +377,145 @@
             }
             
         });
+
+        // create the service image path
+        function makeImage (serviceId){
+          return("00assets/Logo_" + serviceId + ".png");
+        }
+
+        //hide the mix buttons
+        function hideMixButtons (){
+          document.getElementById("btnAddToMix").style.display="none";
+          document.getElementById("btnAddSecondToMix").style.display="none";
+        }
+       
+        //handle the mix button click - shows the 'mix' pane
+        document.getElementById("btnAddToMix").addEventListener("click", function (){
+          //close existing panel
+          document.getElementById("info-pane").style.visibility="hidden";
+          hideMixButtons();
+          // set mix image
+          var imgSrc = currentService.id
+          document.getElementById('mixServiceImg').setAttribute("src", currentService.image);
+          //open mix panel
+          document.getElementById("mix-pane").style.visibility="visible";
+        } );
+          
+        //handle the btnGetMix button click - closes the mix pane and allows the user to make a second selection
+        document.getElementById("btnGetMix").addEventListener("click", function (){
+          //save mixItemOne
+          mixItemOne.id=currentService.id;
+          mixItemOne.title=currentService.title;
+          mixItemOne.image=currentService.image;
+          mixItemOne.body=currentService.body;
+          //set selection state to true
+          selectionState = true;
+
+          // highlight selected node in the tree
+          network.selectNodes([currentService.id],false);          
+
+          //close existing panel
+          document.getElementById("mix-pane").style.visibility="hidden";
+
+          hideMixButtons();
+        } );
+
+        //handle the btnAddSecondToMix button click
+        document.getElementById("btnAddSecondToMix").addEventListener("click", function (){
+          //save mixItemTwo
+          mixItemTwo.id=currentService.id;
+          mixItemTwo.title=currentService.title;
+          mixItemTwo.image=currentService.image;
+          mixItemTwo.body=currentService.body;
+          //set selection state to false
+          selectionState = false;
+
+          // highlight both the selected nodes in the tree
+          network.selectNodes([mixItemOne.id,mixItemTwo.id],false);  
+
+          // set mix images
+          document.getElementById('mixServiceOne').setAttribute("src", makeImage(mixItemOne.id));
+          document.getElementById('mixServiceTwo').setAttribute("src", makeImage(mixItemTwo.id));
+          //close existing panel
+          document.getElementById("info-pane").style.visibility="hidden";
+          //open mix result panel
+          document.getElementById("result-pane").style.visibility="visible";
+          hideMixButtons();
+        } );
         
+        //handle the btnRunMix button click - going to show the results of the mix! woopee!
+        document.getElementById("btnRunMix").addEventListener("click", function (){
+          console.log("ayay");
+          document.getElementById("opaque").style.display = "block";
+          document.getElementById("fake_mix_overlay").style.display = "block";
+          document.getElementById("fake_mix_img_1").setAttribute("src", makeImage(mixItemOne.id));
+          document.getElementById("fake_mix_img_2").setAttribute("src", makeImage(mixItemTwo.id));
+        });
+
       }
     </script>
     
   </head>
 
   <body onload="draw()">
-
-    <div id="mynetwork"></div>
+    <div class="screen_container">
+      <div id="mynetwork"></div>
+      <div id="opaque"></div>
+      
+      <div id="fake_mix_overlay">
+        <div  class="cardText">
+          <img id="fake_mix_img_1" src="00assets/Logo_ICHIBA.png" alt="Avatar" style="width:170px" class="fake_overlay_image" />
+          <svg height="105" width="100" style="margin: 0px">
+              <line x1="0" y1="0" x2="100" y2="0" style="stroke:rgb(153, 255, 1);stroke-width:20" />
+            </svg>
+          <img id="fake_mix_img_2" src="00assets/Logo_ICHIBA.png" alt="Avatar" style="width:170px" class="fake_overlay_image" />
+        </div>
+      </div>
+  </div>
     <div class="card" id="info-pane" style="visibility: hidden;">
       <div class="cardContents">
-        <div id="titleContainer">
-          <div class="imgContainer">
-            <img id="cardImg" src="00assets/Logo_ICHIBA.png" alt="Avatar" style="width:170px" />
+        <div class="titleContainer">
+          <div class="imgContainer"><img id="cardImg" src="00assets/Logo_ICHIBA.png" alt="Avatar" style="width:170px" /></div>
+          <div id="cardTitle" class="cardText"></div>
+          <div id="mixButton" >
+            <div><span class="helper"></span><img id="btnAddToMix" class="imgButton" src="00assets/plus.png" /></div>
+            <div id="btnAddSecondToMix" ><img class="imgButton" src="00assets/plus.png" /><div id="addToMixText">Add to mix</div></div>
           </div>
-          <div id="cardTitle" class="cardText">
-          </div>
-          <div id="mixButton" ><span class="helper"></span><img class="imgButton" src="00assets/plus.png" /></div>
         </div>
         <div id="cardBody" class="cardText"></div>
+      </div>
     </div>
+
+    <div class="card" id="mix-pane" style="visibility: hidden;">
+      <div class="cardContents">
+        <div class="titleContainer mix">
+          <h1 class="mixTitle">MIX</h1>
+        </div>
+        <div id="mixBody" class="cardText">
+          <div class="imgContainer"><img id="mixServiceImg" src="00assets/Logo_ICHIBA.png" alt="Avatar" style="width:170px" /></div>
+          <div class="imgContainer"><span class="helper1"></span><img id="mixMark" src="00assets/mix.png" alt="Avatar" style="width:80px" /></div>
+          <div id="mixButton" ><span class="helper1"></span><img id="btnGetMix" class="imgButton" src="00assets/question.png" style="width: 174px; height: 174px" /></div>
+        </div>
+      </div>
     </div>
+
+
+    <div class="card" id="result-pane" style="visibility: hidden;">
+        <div class="cardContents">
+          <div class="titleContainer mix">
+            <h1 class="mixTitle">MIX</h1>
+          </div>
+          <div id="mixBody" class="cardText">
+            <div class="imgContainer"><img id="mixServiceOne" class="mixImageSelected" src="00assets/Logo_ICHIBA.png" alt="Avatar" style="width:170px" /></div>
+            <div class="imgContainer"><span class="helper1"></span><img id="mixMark" src="00assets/mix.png" alt="Avatar" style="width:80px" /></div>
+            <div id="mixButton" ><span class="helper1"></span><img id="mixServiceTwo" class="imgButton mixImageSelected" src="00assets/question.png" style="width: 170px; height: 170px" /></div>
+           
+          </div> 
+          <div class="bigPinkButton" id="btnRunMix">このサービスをミックスする</div>
+        </div>
+      </div>
+  
+      
+
   </body>
 </html>
