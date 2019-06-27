@@ -101,9 +101,9 @@
         }
         .bigPinkButton{
           margin-top: 50px;
-          font-size: 50pt;
+          font-size: 30pt;
           display: inline-block;
-          padding: 0.5em 1em;
+          padding: 0.5em 6em;
           text-decoration: none;
           background: #ff00bb;/*Button Color*/
           color: #FFF;
@@ -163,26 +163,30 @@
           height:1470px;
         }
         #result-card {
-          /*display: none;*/
-          top:0px;
-          transition: transform 2s;
-          -webkit-transition: -webkit-transform 2s;
-          -moz-transition: transform 2s;
-          -o-transition: transform 2s;
+          /* Add shadows to create the "card" effect */
+          box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+          border-radius: 40px;
+          /*transition: visibility ease-in 0.5s; - BUG: transitions don't work on visiblity, find another way to animate this */
+          position: absolute;
+          left: 0px;
+          background-color: white;
+          width: 100%;
+          height: 100%;
+          display: none;
           
+          transition: transform 2s;
+          -webkit-transition:-webkit-transform 2s;
+          -moz-transition:transform 2s;
+          -o-transition: transform 2s;
         }
         .moveDiv {
+         /*
           transform: translate(0px, -500px);
           -webkit-transform: translate(0px, -500px);
           -moz-transform: translate(0px, -500px);
           -ms-transform: translate(0px, -500px);
           -o-transform: translate(0px, -500px);
-          /*
-          transform: translateY(-500px);/*
-          -webkit-transform: translateY(-500px);
-          -moz-transform: translateY(-500px);
-          -ms-transform: translateY(-500px);
-          -o-transform: translateY(-500px);*/
+         */
         }
         #funny img {
           width: 100%;
@@ -501,8 +505,14 @@
           // show a funny animation for now
           document.getElementById("result-card").style.display = "block";
           // transform - animate the movement in
-          document.getElementById("result-card").classList.add("moveDiv");
-          
+          var result_card = document.getElementById("result-card");
+          result_card.style.transform = "translate(0px, -1000px)";
+          result_card.style.webkitTransform ="translate(0px, -1000px)";
+          /*
+          document.getElementById("result-card").setAttribute("-moz-transform", "translate(0px, -1000px)");
+          document.getElementById("result-card").setAttribute("-ms-transform", "translate(0px, -1000px)");
+          document.getElementById("result-card").setAttribute("-o-transform", "translate(0px, -1000px)");
+          */
         });
 
       }
@@ -569,7 +579,7 @@
         </div>
       </div>
   
-      <div class="card" id="result-card" style="display: none; position: absolute; top:500px;left:0px;">
+      <div id="result-card" style=" position: absolute; top:1000px;left:0px;">
         <div class="cardContents">
           <div class="titleContainer mix">
             <h1 class="mixTitle">MIX!</h1>
