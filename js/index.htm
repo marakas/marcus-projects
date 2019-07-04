@@ -196,7 +196,7 @@
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis-network.min.css" rel="stylesheet" type="text/css" />
-
+  
 
     <script type="text/javascript"> 
       
@@ -516,6 +516,7 @@
         });
 
       }
+
     </script>
     
   </head>
@@ -525,7 +526,7 @@
       <div id="mynetwork"></div>
       <div id="opaque"></div>
       
-      
+    
       <div id="fake_mix_overlay">
         <div  class="cardText">
           <img id="fake_mix_img_1" src="00assets/Logo_ICHIBA.png" alt="Avatar" style="width:170px" class="fake_overlay_image" />
@@ -590,7 +591,24 @@
         </div>
       </div>
     
+      <oneapp-talk param="send_to_friend" style="width:200px; height:200px;background-color: #99ff00;" />
+       
       
 
   </body>
+
+  <script>
+  // html5 custom elements test
+    class oneAppTalk extends HTMLElement {
+      constructor() {
+        // Always call super first in constructor
+        super();
+        console.log ("htmldiv element ");
+        alert ("Super web view");
+        // Element functionality written in here
+      }
+    }
+    window.customElements.define("oneapp-talk", oneAppTalk);
+  
+  </script>
 </html>

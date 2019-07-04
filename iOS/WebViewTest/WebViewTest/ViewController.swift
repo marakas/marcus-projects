@@ -13,8 +13,24 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        let webView = WKWebView(frame: .zero)
+        
+        // set up our config object
+        let contentController = WKUserContentController()
+        
+        // add some javascript
+        
+        guard let scriptPath = Bundle.main.path(forResource: "script", ofType: "js"),
+            let scriptSource = try? String(contentsOfFile: scriptPath) else { return }
+        
+        let userScript = WKUserScript(source: scriptSource, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
+        contentController.addUserScript(userScript)
+        
+        let config = WKWebViewConfiguration()
+        config.userContentController = contentController
+        
+        let webView = WKWebView(frame: .zero, configuration: config)
+        
+        //let webView = WKWebView(frame: .zero)
         
         view.addSubview(webView)
         
@@ -25,11 +41,14 @@ class ViewController: UIViewController {
         webView.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor).isActive = true
         webView.topAnchor.constraint(equalTo: layoutGuide.topAnchor).isActive = true
         webView.bottomAnchor.constraint(equalTo: layoutGuide.bottomAnchor).isActive = true
+
         
         if let url = URL(string: "https://marcusstorage.z11.web.core.windows.net/index.htm") {
             webView.load(URLRequest(url: url))
         }
     }
+    
+    
 
 
 }

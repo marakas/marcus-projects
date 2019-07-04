@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B90C559822CB1DF700ED383A /* script.js in Resources */ = {isa = PBXBuildFile; fileRef = B90C559722CB1DF700ED383A /* script.js */; };
 		B91FACDF22C5F45C0079E614 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91FACDE22C5F45C0079E614 /* AppDelegate.swift */; };
 		B91FACE122C5F45C0079E614 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91FACE022C5F45C0079E614 /* ViewController.swift */; };
 		B91FACE422C5F45C0079E614 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B91FACE222C5F45C0079E614 /* Main.storyboard */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B90C559722CB1DF700ED383A /* script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = script.js; sourceTree = "<group>"; };
 		B91FACDB22C5F45C0079E614 /* WebViewTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WebViewTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B91FACDE22C5F45C0079E614 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B91FACE022C5F45C0079E614 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 				B91FACE522C5F45F0079E614 /* Assets.xcassets */,
 				B91FACE722C5F45F0079E614 /* LaunchScreen.storyboard */,
 				B91FACEA22C5F45F0079E614 /* Info.plist */,
+				B90C559722CB1DF700ED383A /* script.js */,
 			);
 			path = WebViewTest;
 			sourceTree = "<group>";
@@ -230,6 +233,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B91FACE922C5F45F0079E614 /* LaunchScreen.storyboard in Resources */,
+				B90C559822CB1DF700ED383A /* script.js in Resources */,
 				B91FACE622C5F45F0079E614 /* Assets.xcassets in Resources */,
 				B91FACE422C5F45C0079E614 /* Main.storyboard in Resources */,
 			);
@@ -433,6 +437,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5J4GVGN58B;
 				INFOPLIST_FILE = WebViewTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -450,6 +455,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5J4GVGN58B;
 				INFOPLIST_FILE = WebViewTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
