@@ -3,8 +3,44 @@
     <head>
     <meta charset="utf-8"/>
         <script src="bundle.js"></script>
+        <style>
+            .row {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                width: 100%;
+            }
+
+            .column {
+                display: flex;
+                flex-direction: column;
+                flex-basis: 100%;
+                flex: 1;
+            }
+            .text {
+                margin-top: 10px;
+                height: 30px;
+                font-size: 24pt;
+            }
+            .button {
+                margin-top: 20px;
+                margin-left: 20px;
+            }
+        </style>
     </head>
     <body>
-        <h1>hi there</h1>
+        <h1>Hi there</h1>
+        <div class="row">
+            <div class="column"><h2>Please enter your search.. 楽天市場</h2></div>
+            <div class="column"><input type="text" class="text" id="value" /></div>
+            <div class="column"><button class="button" id="search">GO</button></div>
+        </div>
+        <div class="row">
+            <div class="column" id="answers">
+            </div>
+
+        </div>
+        
+        
     </body>
 </html>

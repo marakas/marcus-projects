@@ -1,5 +1,37 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 /*!
+  * domready (c) Dustin Diaz 2014 - License MIT
+  */
+!function (name, definition) {
+
+  if (typeof module != 'undefined') module.exports = definition()
+  else if (typeof define == 'function' && typeof define.amd == 'object') define(definition)
+  else this[name] = definition()
+
+}('domready', function () {
+
+  var fns = [], listener
+    , doc = document
+    , hack = doc.documentElement.doScroll
+    , domContentLoaded = 'DOMContentLoaded'
+    , loaded = (hack ? /^loaded|^c/ : /^loaded|^i|^c/).test(doc.readyState)
+
+
+  if (!loaded)
+  doc.addEventListener(domContentLoaded, listener = function () {
+    doc.removeEventListener(domContentLoaded, listener)
+    loaded = 1
+    while (listener = fns.shift()) listener()
+  })
+
+  return function (fn) {
+    loaded ? setTimeout(fn, 0) : fns.push(fn)
+  }
+
+});
+
+},{}],2:[function(require,module,exports){
+/*!
  * Lunr languages, `Japanese` language
  * https://github.com/MihaiValentin/lunr-languages
  *
@@ -187,13 +219,13 @@
     lunr.Pipeline.registerFunction(lunr.jp.stopWordFilter, 'stopWordFilter-jp');
   };
 }))
-},{}],2:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 // jp is the country code, while ja is the language code
 // a new lunr.ja.js has been created, but in order to
 // keep the backward compatibility, we'll leave the lunr.jp.js
 // here for a while, and just make it use the new lunr.ja.js
 module.exports = require('./lunr.ja');
-},{"./lunr.ja":1}],3:[function(require,module,exports){
+},{"./lunr.ja":2}],4:[function(require,module,exports){
 /*!
  * Snowball JavaScript Library v0.3
  * http://code.google.com/p/urim/
@@ -499,7 +531,7 @@ module.exports = require('./lunr.ja');
     }
 }));
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 /**
  * export the module via AMD, CommonJS or as a browser global
  * Export code from https://github.com/umdjs/umd/blob/master/returnExports.js
@@ -707,7 +739,7 @@ module.exports = require('./lunr.ja');
     };
 
 }));
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 /**
  * lunr - http://lunrjs.com - A bit like Solr, but much smaller and not as bright - 2.3.6
  * Copyright (C) 2019 Oliver Nightingale
@@ -4180,20 +4212,19 @@ lunr.QueryParser.parseBoost = function (parser) {
   }))
 })();
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
+var domready = require("domready");
 var lunr = require('lunr');
+
 require('lunr-languages/lunr.stemmer.support')(lunr);
 require("lunr-languages/tinyseg")(lunr);
 require('lunr-languages/lunr.jp')(lunr); 
 
 
-
-
-
 var idx = lunr(function () {
   this.use(lunr.jp)
   this.ref('id')
-  this.field('text')
+  this.field('text') 
 
   this.add({
     id: 1,
@@ -4227,25 +4258,25 @@ var idx = lunr(function () {
     id: 8,
     text: "楽天GORA"
   })
-
-
-
 })
+
+/*
 console.log(idx.search('楽天'));
 console.log(idx.search('市場'));
 console.log(idx.search('レシピ'));
 console.log(idx.search('チケット'));
 console.log(idx.search('ちけっと'));
 console.log("GORA");
-console.log(idx.search('楽天GORA'));
-/*
-var idx = lunr(function() {
-  this.use('lunr.jp');
-  this.addField('title');
-  this.addField('body');
-  this.setRef('id');
-})
-
+cosole.log(idx.search('楽天GORA'));
 */
 
-},{"lunr":5,"lunr-languages/lunr.jp":2,"lunr-languages/lunr.stemmer.support":3,"lunr-languages/tinyseg":4}]},{},[6]);
+domready(function () {
+    document.getElementById("search").addEventListener("click", function (){
+        var search=document.getElementById("value").value;
+        var results=idx.search(search);
+        console.log(results);
+    });
+});
+
+
+},{"domready":1,"lunr":6,"lunr-languages/lunr.jp":3,"lunr-languages/lunr.stemmer.support":4,"lunr-languages/tinyseg":5}]},{},[7]);

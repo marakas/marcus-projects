@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "domready": "^1.0.8",
     "lunr": "^2.3.6",
     "lunr-languages": "^1.1.0"
   }
